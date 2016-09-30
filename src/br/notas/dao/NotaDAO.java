@@ -52,4 +52,39 @@ public class NotaDAO {
 
 		return nota;
 	}
+
+	public void addNota(Nota nota) throws Exception {
+		int idGerado = 0;
+		Connection conexao = BDConfig.getConnection();
+
+		String sql = "INSERT INTO TB_NOTA(TITULO, DESCRICAO) VALUES(?, ?)";
+
+		PreparedStatement statement = conexao.prepareStatement(sql);
+		statement.setString(1, nota.getTitulo());
+		statement.setString(2, nota.getDescricao());
+		statement.execute();
+	}
+
+	public void editarNota(Nota nota, Long idNota) throws Exception {
+		Connection conexao = BDConfig.getConnection();
+
+		String sql = "UPDATE TB_NOTA SET TITULO = ?, DESCRICAO = ? WHERE ID_NOTE = ?";
+
+		PreparedStatement statement = conexao.prepareStatement(sql);
+		statement.setString(1, nota.getTitulo());
+		statement.setString(2, nota.getDescricao());
+		statement.setLong(3, idNota);
+		statement.execute();
+	}
+
+	public void removerNota(Long idNota) throws Exception {
+		Connection conexao = BDConfig.getConnection();
+
+		String sql = "DELETE FROM TB_NOTA WHERE ID_NOTE = ?";
+
+		PreparedStatement statement = conexao.prepareStatement(sql);
+		statement.setLong(1, idNota);
+		statement.execute();
+	}
+
 }
